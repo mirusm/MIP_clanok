@@ -23,7 +23,7 @@
 	{\small \texttt{xmasiarikova@stuba.sk}}
 	}
 
-\date{\small 9. október 2021} % upravte
+\date{\small x. november 2021} % upravte
 
 
 
@@ -32,82 +32,25 @@
 \maketitle
 
 \begin{abstract}
-\ldots
-V súčasnosti je umelá inteligencia jeden z hlavných nástrojov na zlepšenie hráčskeho zážitku v hrách. Umelá inteligencia sa v hrách zameriava predovšetkým na tri základné sekcie: schopnosť pohybovať postavami, schopnosť rozhodovať kde a ako sa pohybovať a schopnosť myslieť strategicky. 
-V mojom článku, ako napovedá názov, by som sa chcela predovšetkým zamerať na NPC postavy (postava neovládaná hráčom), ktoré sú ovládané umelou inteligenciou. V článku vysvetlím, čo je to NPC, načo sa NPC v hrách využívajú, prečo sú NPC v hrách dôležité, aké algoritmy umelej inteligencie sa využívajú pri modelovaní, správaní a rozhodovaní týchto postáv, s akými problémami sa môžeme stretnúť pri používaní umelej inteligencie v hrách a ako sa NPC v týchto hrách vyvíjajú. Taktiež by som sa v stručnosti chcela zamerať aj na vývoj umelej inteligencie od prvej hry využívajúcej umelú inteligenciu (Pac-Man) až po súčasnosť.   
+
+V súčasnosti je umelá inteligencia jeden z hlavných nástrojov na zlepšenie hráčskeho zážitku v hrách. Umelá inteligencia sa v hrách zameriava predovšetkým na tri základné sekcie: schopnosť pohybovať postavami, schopnosť rozhodovať kde a ako sa pohybovať a schopnosť myslieť strategicky. V mojom článku sa zameriam konkrétne na postavy neovládané hráčom, ale umelou inteligenciou. Úlohou týchto postáv je spraviť hru pre hráča ťažšou a zaujímavejšou. Charakter týchto postáv je v hrách rôzny, niektoré majú za úlohu hru iba oživiť a nerobia žiadne špeciálne úkony, zatiaľ čo iné sa samy rozhodujú, pohybujú a skúmajú prostredie okolo seba. Takéto postavy sú schopné učiť sa od ostatných hráčov v hre. V mojom článku viac priblížim význam týchto postáv v hrách, rozoberiem aké algoritmy umelej inteligencie sú potrebné pri modelovaní, správaní a rozhodovaní týchto postáv, s akými problémami sa môžeme stretnúť a ako sa takéto postavy môžu ďalej v hre vyvíjať. Taktiež sa v stručnosti zameriam aj na vývoj umelej inteligencie od prvej hry využívanej umelú inteligenciou až po súčasnosť. 
 
 \end{abstract}
 
 
-
-\section{Úvod}
-
-Motivujte čitateľa a vysvetlite, o čom píšete. Úvod sa väčšinou nedelí na časti.
-
-Uveďte explicitne štruktúru článku. Tu je nejaký príklad.
-Základný problém, ktorý bol naznačený v úvode, je podrobnejšie vysvetlený v časti~\ref{nejaka}.
-Dôležité súvislosti sú uvedené v častiach~\ref{dolezita} a~\ref{dolezitejsia}.
-Záverečné poznámky prináša časť~\ref{zaver}.
-
-
-
 \section{Čo je to NPC?}  \label{nejaka}
-
-
-Z obr.~\ref{f:rozhod} je všetko jasné. 
 
 \begin{figure*}[tbh]
 \centering
 %\includegraphics[scale=1.0]{diagram.pdf}
-Aj text môže byť prezentovaný ako obrázok. Stane sa z neho označný plávajúci objekt. Po vytvorení diagramu zrušte znak \texttt{\%} pred príkazom \verb|\includegraphics| označte tento riadok ako komentár (tiež pomocou znaku \texttt{\%}).
-\caption{Rozhodujúci argument.}
-\label{f:rozhod}
-\end{figure*}
 
+\end{figure*}
 
 
 \section{Načo sa NPC v hrách využívajú?} \label{ina}
 
-Základným problémom je teda\ldots{} Najprv sa pozrieme na nejaké vysvetlenie (časť~\ref{ina:nejake}), a potom na ešte nejaké (časť~\ref{ina:nejake}).\footnote{Niekedy môžete potrebovať aj poznámku pod čiarou.}
-
-Môže sa zdať, že problém vlastne nejestvuje\cite{Coplien:MPD}, ale bolo dokázané, že to tak nie je~\cite{Czarnecki:Staged, Czarnecki:Progress}. Napriek tomu, aj dnes na webe narazíme na všelijaké pochybné názory\cite{PLP-Framework}. Dôležité veci možno \emph{zdôrazniť kurzívou}.
-
-
-\subsection{Nejaké vysvetlenie} \label{ina:nejake}
-
-Niekedy treba uviesť zoznam:
-
-\begin{itemize}
-\item jedna vec
-\item druhá vec
-	\begin{itemize}
-	\item x
-	\item y
-	\end{itemize}
-\end{itemize}
-
-Ten istý zoznam, len číslovaný:
-
-\begin{enumerate}
-\item jedna vec
-\item druhá vec
-	\begin{enumerate}
-	\item x
-	\item y
-	\end{enumerate}
-\end{enumerate}
-
-
-\subsection{Ešte nejaké vysvetlenie} \label{ina:este}
-
-\paragraph{Veľmi dôležitá poznámka.}
-Niekedy je potrebné nadpisom označiť odsek. Text pokračuje hneď za nadpisom.
-
-
 
 \section{Prečo sú NPC v hrách dôležité?} \label{dolezita}
-
-
 
 
 \section{Algoritmy umelej inteligencie, ktoré sa využívajú pri modelovaní, správaní a rozhodovaní NPC} \label{dolezitejsia}
@@ -120,6 +63,12 @@ Niekedy je potrebné nadpisom označiť odsek. Text pokračuje hneď za nadpisom
 
 
 \section{Záver} \label{zaver} % prípadne iný variant názvu
+
+
+\footnote{Niekedy môžete potrebovať aj poznámku pod čiarou.}
+
+
+Môže sa zdať, že problém vlastne nejestvuje\cite{Coplien:MPD}, ale bolo dokázané, že to tak nie je~\cite{Czarnecki:Staged, Czarnecki:Progress}. Napriek tomu, aj dnes na webe narazíme na všelijaké pochybné názory\cite{PLP-Framework}. Dôležité veci možno \emph{zdôrazniť kurzívou}.
 
 
 
