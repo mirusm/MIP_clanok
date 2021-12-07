@@ -23,7 +23,7 @@
 	{\small \texttt{xmasiarikova@stuba.sk}}
 	}
 
-\date{\small 6. november 2021} % upravte
+\date{\small 14. december 2021} % upravte
 
 %\includegraphics[scale=1.0]{diagram.pdf}
 
@@ -33,17 +33,25 @@
 
 \begin{abstract}
 
-V súčasnosti je umelá inteligencia jeden z hlavných nástrojov na zlepšenie hráčskeho zážitku v hrách. Umelá inteligencia sa v hrách zameriava predovšetkým na tri základné sekcie: schopnosť pohybovať postavami, schopnosť rozhodovať kde a ako sa pohybovať a schopnosť myslieť strategicky. V mojom článku sa zameriam konkrétne na postavy neovládané hráčom, ale umelou inteligenciou. Úlohou týchto postáv je spraviť hru pre hráča ťažšou a zaujímavejšou. Charakter týchto postáv je v hrách rôzny, niektoré majú za úlohu hru iba oživiť a nerobia žiadne špeciálne úkony, zatiaľ čo iné sa samy rozhodujú, pohybujú a skúmajú prostredie okolo seba. Takéto postavy sú schopné učiť sa od ostatných hráčov v hre. V mojom článku viac priblížim význam týchto postáv v hrách, rozoberiem aké algoritmy umelej inteligencie sú potrebné pri modelovaní, správaní a rozhodovaní týchto postáv, s akými problémami sa môžeme stretnúť a ako sa takéto postavy môžu ďalej v hre vyvíjať. 
+V súčasnosti je umelá inteligencia jeden z hlavných nástrojov na zlepšenie hráčskeho zážitku v hrách. Umelá inteligencia sa v hrách zameriava predovšetkým na tri základné sekcie: schopnosť pohybovať postavami, schopnosť rozhodovať kde a ako sa pohybovať a schopnosť myslieť strategicky. Článok je zameraný  konkrétne na postavy neovládané hráčom, ale umelou inteligenciou. Úlohou týchto postáv je spraviť hru pre hráča ťažšou a zaujímavejšou. Charakter týchto postáv je v hrách rôzny, niektoré majú za úlohu hru iba oživiť a nerobia žiadne špeciálne úkony, zatiaľ čo iné sa samy rozhodujú, pohybujú a skúmajú prostredie okolo seba. Takéto postavy sú schopné učiť sa od ostatných hráčov v hre. V článku je priblížený význam týchto postáv v hrách, ďalej aké algoritmy umelej inteligencie sú potrebné pri modelovaní, správaní a rozhodovaní týchto postáv, s akými problémami sa môžeme stretnúť a ako sa takéto postavy môžu ďalej v hre vyvíjať. 
 \end{abstract}
 
+\paragraph{Kľúčové slová:}NPC, non-player character, Finite State Machine, Behaviour Tree, GOAP.
 
 \section{Úvod}
 
-\quad Umelá inteligencia je predovšetkým o vytváraní počítačov, ktoré budú schopné vykonávať úlohy, v ktorých je potrebné používať prirodzené ľudské, alebo zvieracie myslenie. Táto podstata umelej inteligencie je v súčasnosti veľmi skúmanou oblasťou hlavne z pohľadu vývojárov hier, ktorí sa snažia byť pri takomto vývoji čoraz viac kreatívni. A preto vytvárajú algoritmy, s ktorých pomocou postavy v hrách vystupujú alebo konajú ako ľudia či zvieratá.
+\quad Umelá inteligencia je predovšetkým o vytváraní počítačov, ktoré budú schopné vykonávať úlohy, v ktorých je potrebné používať prirodzené ľudské, alebo zvieracie myslenie. Táto podstata umelej inteligencie je v súčasnosti veľmi skúmanou oblasťou hlavne z pohľadu vývojárov hier, ktorí sa snažia byť pri takomto vývoji čoraz viac kreatívni. A preto vytvárajú algoritmy, s ktorých pomocou postavy v hrách vystupujú alebo konajú ako ľudia či zvieratá. Aktuálnosť tejto témy nám potvrdzuje aj nasledujúca tabuľka ~\ref{t:t1}. V tejto tabuľke sa nachádzajú výsledky z prieskumu, kde sa opýtali 3000 respondentov, ako má podľa nich vyzerať ideálna hra. Až 31\% opýtaných uviedlo, že oceňujú, ak sú v hre NPC, ktoré sa vyvíjajú a tak im hru ďalej komplikujú. 
+
+\begin{table*}[tbh]
+\center \includegraphics[scale=0.5]{prieskum.png}
+\caption{Prieskum o ideálnej hre}
+\label{t:t1}
+\end{table*}
 
 Hlavným cieľom tohto článku je poukázať práve na túto časť umelej inteligencie a jej využitie v hrách. V druhej kapitole budú predstavené práve také postavy v hrách, ktoré fungujú iba na základe umelej inteligencie a ich využitie. V tretej kapitole sa čitateľ oboznámi s typmi týchto postáv, čím sa od seba líšia a na čo v hrách slúžia. Kapitolu štvrtú tvoria druhy algoritmov, ktoré vývojári hier využívajú pri modelovaní týchto postáv. V poslednej, piatej kapitole je popísaná jednoduchá hra na schovávačku.
 
 Obsah tohto článku vychádza z viacerých odborných článkov či výskumných prác, ktoré boli zhrnuté do jednej ucelenej formy, ktorá poskytne čitateľovi potrebné informácie z tejto aktuálnej problematiky. 
+
 
 \section{Čo je to NPC a na čo slúži}  \label{nejaka}
 \quad NPC je anglická skratka pre non-player character, slúži na označenie postáv v hrách, ktoré nie sú ovládané hráčom, ale fungujú na základe umelej inteligencie, tzn. ovláda ich sám počítač. Tieto postavy sú nevyhnutnou súčasťou na zatraktívnenie akejkoľvek hry. Ich hlavnou úlohou je spraviť hru pre hráča atraktívnou, zaujímavou a komplikovanejšou, pretože jednoduchá hra pre hráča nie je zaujímavá. Charakter týchto postáv by sa dal rozdeliť na dve skupiny, statické a dynamické. V prvej skupine sa nachádzajú postavy, ktorých úlohou je hru iba oživiť a nerobia žiadne špeciálne úlohy. Takéto postavy iba dopĺňajú prostredie, v ktorom sa väčšinou pohybujú po uliciach. Ich správanie v hre je ľahko predvídateľné inými hráčmi, pretože činnosti, ktoré vykonávajú, opakujú stále dookola. V druhej skupine sa nachádzajú postavy, ktoré sú schopné učiť sa od ostatných hráčov v hre, ďalej sa vyvíjať a zlepšovať. Tieto postavy sú schopné samy sa pohybovať, rozhodovať a strategicky myslieť. Ich úlohou je sťažiť reálnym hráčom hru a nedovoliť im len tak jednoducho vyhrať, správanie takýchto postáv je ťažko predvídateľné a často sa mení. Jedinou nevýhodou týchto postáv je, že nie sú ešte dostatočne inteligentné. Väčšina týchto postáv v hrách vedie iba jednoduché dialógy alebo ovplyvňuje priebeh deja na základe doterajších skúseností s hráčmi. Ako príklad uvediem jednoduchú kartovú hru. V takýchto hrách sa okrem hráčov musí nachádzať aj nejaká neutrálna osoba, resp. rozhodca, ktorá bude dozerať na pravidlá hry. Práve touto neutrálnou osobou je postava, ktorá nie je ovládaná žiadnym hráčom, ale počítačom. Tento rozhodca vedie jednoduché dejové dialógy s reálnymi hráčmi, kontroluje dodržiavanie pravidiel a dotvára celkovú atmosféru hry. ~\cite{NPC, AI} 
@@ -86,12 +94,27 @@ Obsah tohto článku vychádza z viacerých odborných článkov či výskumnýc
 
 \item \textbf{Goal-Oriented Action Planning (GOAP)}
 
-\quad GOAP je algoritmus, v ktorom je NPC voľná pri príprave každej akcie na splnenie stanovených cieľov, tzn. rozhoduje sa sama. Vďaka tomuto algoritmu je NPC v hre dynamickejšia, čo znamená, že jej akcie sa dajú len ťažko predpovedať, a tým je hra pre hráča zaujímavejšia. GOAP pozostáva zo štyroch komponentov, a to z cieľa, akcie, plánu a formulácie plánu. Cieľ predstavuje hlavnú úlohu NPC, ktorú musí táto postava dosiahnuť, akcia predstavuje správanie NPC pri dosahovaní cieľa, plán predstavuje usporiadanie akcií zameraných na vyriešenie cieľa a formulácia plánu predstavuje proces prípravy plánu, ktorý je vhodný pre daný cieľ.  Výhodou používania GOAP pri modelovaní týchto postáv je, že nevytvára zložité grafy na plánovanie. Ďalšou z výhod použitia GOAP pre vývojárov je, že vytvára uzly získané z akcií so vstupom a výstupom, ktoré je možné vyhodnocovať v reálnom čase. Diagram 1 nižšie zobrazuje stratégiu NPC v hre na schovávanie pomocou algoritmu GOAP.  \cite{NPC}
-
+\quad GOAP je algoritmus, v ktorom je NPC voľná pri príprave každej akcie na splnenie stanovených cieľov, tzn. rozhoduje sa sama. Vďaka tomuto algoritmu je NPC v hre dynamickejšia, čo znamená, že jej akcie sa dajú len ťažko predpovedať, a tým je hra pre hráča zaujímavejšia. GOAP pozostáva zo štyroch komponentov, a to z cieľa, akcie, plánu a formulácie plánu. Cieľ predstavuje hlavnú úlohu NPC, ktorú musí táto postava dosiahnuť, akcia predstavuje správanie NPC pri dosahovaní cieľa, plán predstavuje usporiadanie akcií zameraných na vyriešenie cieľa a formulácia plánu predstavuje proces prípravy plánu, ktorý je vhodný pre daný cieľ.  Výhodou používania GOAP pri modelovaní týchto postáv je, že nevytvára zložité grafy na plánovanie. Ďalšou z výhod použitia GOAP pre vývojárov je, že vytvára uzly získané z akcií so vstupom a výstupom, ktoré je možné vyhodnocovať v reálnom čase. Diagram~\ref{f:d1} nižšie zobrazuje stratégiu NPC v hre na schovávanie pomocou algoritmu GOAP.  \cite{NPC}
+\begin{figure*}[tbh]
+\center\includegraphics[scale=0.5]{diagram1.png}
+\caption{GOAP algoritmus v hre na skrývanie}
+\label{f:d1}
+\end{figure*}
 \end{itemize}
 
 \section{Príklad: Skrývanie} 
-\quad NPC majú v hrách rôzne úlohy a jednou z nich je aj skrývanie. Je veľa spôsobov, akými môže byť stratégia skrývania v hre využitá. Môže ísť o doplnok, ktorý má hru iba oživiť alebo môže ísť o hru samotnú. Jedná sa o hru na schovávačku, ktorá je tu už dlho a je pravdepodobne každému známa. Táto hra je veľmi jednoduchá a vyžaduje iba dvoch hráčov, jedného ako pátrača a druhého ako skrytú osobu. Hra začne od hľadača resp. pátrača v základni, kde bude so zavretými očami odpočítavať od vopred určeného čísla po nulu. Hra pokračuje po tom, čo pátrač dokončí odpočítavanie. Úlohou pátrača je hľadať nepriateľa, ktorý sa niekde skrýva a zároveň dohliadať na základňu. Ak pátrač nájde nepriateľov úkryt, nepriateľ aj pátrač sa rozbehnú na základňu. Ak pátrač dorazí na základňu prvý, tak ďalším hľadajúcim sa stane nepriateľ, v opačnom prípade je nepriateľ v bezpečí. Pátrač bude pokračovať v hľadaní nepriateľov, kým ich všetkých nezajme alebo kým nebudú všetci v bezpečí. Ak pátrač chytí všetkých nepriateľov, hra sa skončí a pokračuje na ďalšiu ťažšiu úroveň. Ide o veľmi jednoduchú digitálnu hru, kde NPC predstavuje nepriateľa, čiže postavu, ktorá sa musí schovať a reálny hráč je pátračom. V takejto hre NPC musí zvažovať zmenu miesta na bezpečnejšie a tiež to, ako konať v prípade, ak ho nájde pátrač. NPC tak musí vykonávať niekoľko akcií, ktoré sú zobrazené aj v diagrame 1 v kapitole 4. Diagram 2 nižšie zobrazuje priebeh tejto hry na schovávačku. 
+\quad NPC majú v hrách rôzne úlohy a jednou z nich je aj skrývanie. Je veľa spôsobov, akými môže byť stratégia skrývania v hre využitá. Môže ísť o doplnok, ktorý má hru iba oživiť alebo môže ísť o hru samotnú. Jedná sa o hru na schovávačku, ktorá je tu už dlho a je pravdepodobne každému známa. Táto hra je veľmi jednoduchá a vyžaduje iba dvoch hráčov, jedného ako pátrača a druhého ako skrytú osobu. Hra začne od hľadača resp. pátrača v základni, kde bude so zavretými očami odpočítavať od vopred určeného čísla po nulu. Hra pokračuje po tom, čo pátrač dokončí odpočítavanie. Úlohou pátrača je hľadať nepriateľa, ktorý sa niekde skrýva a zároveň dohliadať na základňu. Ak pátrač nájde nepriateľov úkryt, nepriateľ aj pátrač sa rozbehnú na základňu. Ak pátrač dorazí na základňu prvý, tak ďalším hľadajúcim sa stane nepriateľ, v opačnom prípade je nepriateľ v bezpečí. Pátrač bude pokračovať v hľadaní nepriateľov, kým ich všetkých nezajme alebo kým nebudú všetci v bezpečí. Ak pátrač chytí všetkých nepriateľov, hra sa skončí a pokračuje na ďalšiu ťažšiu úroveň. Ide o veľmi jednoduchú digitálnu hru, kde NPC predstavuje nepriateľa, čiže postavu, ktorá sa musí schovať a reálny hráč je pátračom. V takejto hre NPC musí zvažovať zmenu miesta na bezpečnejšie a tiež to, ako konať v prípade, ak ho nájde pátrač. NPC tak musí vykonávať niekoľko akcií, ktoré sú zobrazené aj v diagrame~\ref{f:d1} . Diagram ~\ref{f:d2} nižšie zobrazuje priebeh tejto hry na schovávačku. V tabuľke~\ref{t:t2} sa nachádza miera úspešnosti NPC v takejto hre. Hodnoty sú vypočítané ako podiel NPC, ktoré sa dostali na základňu bez toho aby ich hráč chytil a celkovo nájdených NPC hráčom.
+\begin{figure*}[tbh]
+\center\includegraphics[scale=0.5]{diagram2.png}
+\caption{Priebeh hry na skrývanie}
+\label{f:d2}
+\end{figure*}
+\begin{table*}[tbh]
+\center \includegraphics[scale=0.5]{priklad.png}
+\caption{Miera úspešnosti NPC v hre na skrývanie}
+\label{t:t2}
+\end{table*}
+
 
 \section{Záver} \label{zaver} 
 \quad S rýchlym vývojom dnešných technológií dochádza k veľkým prelomom najmä v oblasti umelej inteligencie, ktorá v sebe nesie veľký potenciál. Čoskoro sa stane nenahraditeľnou súčasťou pre vývoj všetkých hier. Ako bolo prezentované aj v tomto článku, umelá inteligencia je najlepším spôsobom pre inteligentný vývoj NPC v hrách. V súčasnosti môže herná umelá inteligencia plniť úlohy zadané vývojárom a vytvárať tak realistickú ilúziu „skutočných postáv“. A to na základe toho, že sa učí na tom, ako sa správajú reálni hráči alebo ako medzi sebou komunikujú. Môj názor je, že NPC prinesie v budúcnosti herným spoločnostiam obrovské zisky a poskytne nový smer pre herný priemysel. Taktiež strojové učenie je základným nástrojom na získavanie údajov pre analýzu hier, takže herné spoločnosti môžu študovať správanie hráčov a dešifrovať tak nové poznatky na zlepšenie svojich hier v priebehu krátkeho času. Čo sa týka samoučiacej sa funkcie umelej inteligencie, tak sa jedná stále pomerne o novinku, ale časom, po tom čo sa vo vývoji hier začnú využívať nové a vylepšené verzie umelej inteligencie, ktoré budú založené na strojovom učení, bude budúci vývoj hier, hrateľnosť a celkový herný zážitok nakoniec lepší a modernejší.
