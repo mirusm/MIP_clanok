@@ -43,8 +43,8 @@ V súčasnosti je umelá inteligencia jeden z hlavných nástrojov na zlepšenie
 \quad Umelá inteligencia je predovšetkým o vytváraní počítačov, ktoré budú schopné vykonávať úlohy, v ktorých je potrebné používať prirodzené ľudské, alebo zvieracie myslenie. Táto podstata umelej inteligencie je v súčasnosti veľmi skúmanou oblasťou hlavne z pohľadu vývojárov hier, ktorí sa snažia byť pri takomto vývoji čoraz viac kreatívni. A preto vytvárajú algoritmy, s ktorých pomocou postavy v hrách vystupujú alebo konajú ako ľudia či zvieratá. \cite{hernaAI}Aktuálnosť tejto témy nám potvrdzuje aj nasledujúca tabuľka ~\ref{t:t1} . V tejto tabuľke sa nachádzajú výsledky z prieskumu, kde sa opýtali 3000 respondentov, ako má podľa nich vyzerať ideálna hra. Až 31\% opýtaných uviedlo, že oceňujú, ak sú v hre NPC, ktoré sa vyvíjajú a tak im hru ďalej komplikujú. \cite{Types}
 
 \begin{table*}[tbh]
+\caption{Prieskum o ideálnej hre, upravené podľa \cite{Types}}
 \center \includegraphics[scale=0.5]{prieskum.png}
-\caption{Prieskum o ideálnej hre}
 \label{t:t1}
 \end{table*}
 
@@ -98,27 +98,21 @@ Obsah tohto článku vychádza z viacerých odborných článkov či výskumnýc
 
 \item \textbf{Goal-Oriented Action Planning (GOAP)}
 
-\quad GOAP \footnote{voľný preklad do slovenčiny Plánovanie akcie zameranej na cieľ} je algoritmus, v ktorom je NPC voľná pri príprave každej akcie na splnenie stanovených cieľov, tzn. rozhoduje sa sama. Vďaka tomuto algoritmu je NPC v hre dynamickejšia, čo znamená, že jej akcie sa dajú len ťažko predpovedať, a tým je hra pre hráča zaujímavejšia. GOAP pozostáva zo štyroch komponentov, a to z cieľa, akcie, plánu a formulácie plánu. Cieľ predstavuje hlavnú úlohu NPC, ktorú musí táto postava dosiahnuť, akcia predstavuje správanie NPC pri dosahovaní cieľa, plán predstavuje usporiadanie akcií zameraných na vyriešenie cieľa a formulácia plánu predstavuje proces prípravy plánu, ktorý je vhodný pre daný cieľ.  Výhodou používania GOAP pri modelovaní týchto postáv je, že nevytvára zložité grafy na plánovanie. Ďalšou z výhod použitia GOAP pre vývojárov je, že vytvára uzly získané z akcií so vstupom a výstupom, ktoré je možné vyhodnocovať v reálnom čase. Diagram \cite{NPC} ~\ref{f:d1} nižšie zobrazuje stratégiu NPC v hre na schovávanie pomocou algoritmu GOAP. 
+\quad GOAP \footnote{voľný preklad do slovenčiny Plánovanie akcie zameranej na cieľ} je algoritmus, v ktorom je NPC voľná pri príprave každej akcie na splnenie stanovených cieľov, tzn. rozhoduje sa sama. Vďaka tomuto algoritmu je NPC v hre dynamickejšia, čo znamená, že jej akcie sa dajú len ťažko predpovedať, a tým je hra pre hráča zaujímavejšia. GOAP pozostáva zo štyroch komponentov, a to z cieľa, akcie, plánu a formulácie plánu. Cieľ predstavuje hlavnú úlohu NPC, ktorú musí táto postava dosiahnuť, akcia predstavuje správanie NPC pri dosahovaní cieľa, plán predstavuje usporiadanie akcií zameraných na vyriešenie cieľa a formulácia plánu predstavuje proces prípravy plánu, ktorý je vhodný pre daný cieľ.  Výhodou používania GOAP pri modelovaní týchto postáv je, že nevytvára zložité grafy na plánovanie. Ďalšou z výhod použitia GOAP pre vývojárov je, že vytvára uzly získané z akcií so vstupom a výstupom, ktoré je možné vyhodnocovať v reálnom čase. Diagram ~\ref{f:d1} nižšie zobrazuje stratégiu NPC v hre na schovávanie pomocou algoritmu GOAP. 
 \begin{figure*}[tbh]
 \center\includegraphics[scale=0.5]{diagram1.png}
-\caption{GOAP algoritmus v hre na skrývanie}
+\caption{GOAP algoritmus v hre na skrývanie, upravené podľa \cite{NPC} }
 \label{f:d1}
 \end{figure*}
 \end{itemize}
 
 \section{Príklad: Skrývanie} 
-\quad NPC majú v hrách rôzne úlohy a jednou z nich je aj skrývanie. Je veľa spôsobov, akými môže byť stratégia skrývania v hre využitá. Môže ísť o doplnok, ktorý má hru iba oživiť alebo môže ísť o hru samotnú. Jedná sa o hru na schovávačku, ktorá je tu už dlho a je pravdepodobne každému známa. Táto hra je veľmi jednoduchá a vyžaduje iba dvoch hráčov, jedného ako pátrača a druhého ako skrytú osobu. Hra začne od hľadača resp. pátrača v základni, kde bude so zavretými očami odpočítavať od vopred určeného čísla po nulu. Hra pokračuje po tom, čo pátrač dokončí odpočítavanie. Úlohou pátrača je hľadať nepriateľa, ktorý sa niekde skrýva a zároveň dohliadať na základňu. Ak pátrač nájde nepriateľov úkryt, nepriateľ aj pátrač sa rozbehnú na základňu. Ak pátrač dorazí na základňu prvý, tak ďalším hľadajúcim sa stane nepriateľ, v opačnom prípade je nepriateľ v bezpečí. Pátrač bude pokračovať v hľadaní nepriateľov, kým ich všetkých nezajme alebo kým nebudú všetci v bezpečí. Ak pátrač chytí všetkých nepriateľov, hra sa skončí a pokračuje na ďalšiu ťažšiu úroveň.  \cite{NPC}  Ide o veľmi jednoduchú digitálnu hru, kde NPC predstavuje nepriateľa, čiže postavu, ktorá sa musí schovať a reálny hráč je pátračom. V takejto hre NPC musí zvažovať zmenu miesta na bezpečnejšie a tiež to, ako konať v prípade, ak ho nájde pátrač. NPC tak musí vykonávať niekoľko akcií, ktoré sú zobrazené aj v diagrame~\ref{f:d1} . Diagram \cite{NPC} ~\ref{f:d2} nižšie zobrazuje priebeh tejto hry na schovávačku. V tabuľke \cite{NPC} ~\ref{t:t2} sa nachádza miera úspešnosti NPC v takejto hre. Hodnoty sú vypočítané ako podiel NPC, ktoré sa dostali na základňu bez toho aby ich hráč chytil a celkovo nájdených NPC hráčom.
+\quad NPC majú v hrách rôzne úlohy a jednou z nich je aj skrývanie. Je veľa spôsobov, akými môže byť stratégia skrývania v hre využitá. Môže ísť o doplnok, ktorý má hru iba oživiť alebo môže ísť o hru samotnú. Jedná sa o hru na schovávačku, ktorá je tu už dlho a je pravdepodobne každému známa. Táto hra je veľmi jednoduchá a vyžaduje iba dvoch hráčov, jedného ako pátrača a druhého ako skrytú osobu. Hra začne od hľadača resp. pátrača v základni, kde bude so zavretými očami odpočítavať od vopred určeného čísla po nulu. Hra pokračuje po tom, čo pátrač dokončí odpočítavanie. Úlohou pátrača je hľadať nepriateľa, ktorý sa niekde skrýva a zároveň dohliadať na základňu. Ak pátrač nájde nepriateľov úkryt, nepriateľ aj pátrač sa rozbehnú na základňu. Ak pátrač dorazí na základňu prvý, tak ďalším hľadajúcim sa stane nepriateľ, v opačnom prípade je nepriateľ v bezpečí. Pátrač bude pokračovať v hľadaní nepriateľov, kým ich všetkých nezajme alebo kým nebudú všetci v bezpečí. Ak pátrač chytí všetkých nepriateľov, hra sa skončí a pokračuje na ďalšiu ťažšiu úroveň.  \cite{NPC}  Ide o veľmi jednoduchú digitálnu hru, kde NPC predstavuje nepriateľa, čiže postavu, ktorá sa musí schovať a reálny hráč je pátračom. V takejto hre NPC musí zvažovať zmenu miesta na bezpečnejšie a tiež to, ako konať v prípade, ak ho nájde pátrač. NPC tak musí vykonávať niekoľko akcií, ktoré sú zobrazené aj v diagrame~\ref{f:d1} . Diagram ~\ref{f:d2} nižšie zobrazuje priebeh tejto hry na schovávačku. 
 \begin{figure*}[tbh]
 \center\includegraphics[scale=0.5]{diagram2.png}
-\caption{Priebeh hry na skrývanie} 
+\caption{Priebeh hry na skrývanie, upravené podľa \cite{NPC}} 
 \label{f:d2} 
 \end{figure*}
-\begin{table*}[tbh]
-\center \includegraphics[scale=0.41]{priklad.png}
-\caption{Miera úspešnosti NPC v hre na skrývanie}
-\label{t:t2}
-\end{table*}
-
 
 
 \section{Reakcia na témy z prednášok} 
